@@ -1,0 +1,1 @@
+var newsService =  require('./lib/newsService');

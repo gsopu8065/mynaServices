@@ -1,0 +1,10 @@
+{
+  "name": "user",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "myna-server": "git+https://github.com/gsopu8065/myna-server.git",
+    "lodash": "4.17.4"
+  },
+  "scripts": {}
+}
