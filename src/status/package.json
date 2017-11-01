@@ -6,7 +6,8 @@
     "myna-server": "git+https://github.com/gsopu8065/myna-server.git",
     "myna-global": "git+https://github.com/gsopu8065/myna-global.git",
     "lodash": "4.17.4",
-    "mongodb": "2.1.16"
+    "mongodb": "2.1.16",
+    "bluebird": "3.5.1"
   },
   "scripts": {}
 }
