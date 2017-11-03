@@ -14,7 +14,7 @@ app.post('/myna/user/blockUser', function (req, res) {
         throw new ValidationError("Missing Fields");
 
     mongoDbConnection(function (databaseConnection) {
-        databaseConnection.collection('users2', function (error, collection) {
+        databaseConnection.collection('users', function (error, collection) {
 
             if(error)
                 throw new ValidationError(JSON.stringify(error))
