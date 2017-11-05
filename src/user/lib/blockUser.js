@@ -1,5 +1,5 @@
 var app = require('myna-server').app;
-var mongoDbConnection = require('myna-server').mongoDb;
+var mongoDbConnection = require('myna-server').mongoDb.closedConnection;
 var ValidationError = require('myna-server').ValidationError;
 
 /*
@@ -10,28 +10,17 @@ var ValidationError = require('myna-server').ValidationError;
  */
 app.post('/myna/user/blockUser', function (req, res) {
 
-    if(!req.body.blockUserId || !req.body.userId)
+    if (!req.body.blockUserId || !req.body.userId)
         throw new ValidationError("Missing Fields");
 
-    mongoDbConnection(function (databaseConnection) {
-        databaseConnection.collection('users', function (error, collection) {
-
-            if(error)
-                throw new ValidationError(JSON.stringify(error))
-
-            collection.update({_id: req.body.userId}, {
+    Promise.using(mongoDbConnection(), conn => {
+        return conn.collection('users')
+            .update({ _id: req.body.userId }, {
                 $addToSet: {
                     blocks: req.body.blockUserId
                 }
-            }, {upsert: true}, function (err, records) {
+            }, { upsert: true })
+            .then(out => res.status(200).send("Update Sucess"))
 
-                if (err) {
-                    throw new ValidationError(JSON.stringify(err), 500);
-                } else {
-                    res.status(200).send("Update Sucess")
-                }
-            })
-        })
-    })
-
+    }).catch(err => res.status(500).send(err.stack));
 });
