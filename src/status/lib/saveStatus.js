@@ -69,7 +69,7 @@ var statusSave = function (status) {
         .insert(status)
         .then(insertedStatus => {
             databaseConnection.close();
-            return Promise.resolve("Inserted Sucessfully")
+            return Promise.resolve(insertedStatus)
         })
         .catch(error => { databaseConnection.close(); return Promise.reject(error) });
     })

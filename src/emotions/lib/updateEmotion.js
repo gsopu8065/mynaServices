@@ -21,7 +21,7 @@ app.post('/myna/emotions/updateStatusEmotion', function (req, res) {
         })
         .then(deletedStatusEmotion => updateEmotion(databaseConn, req.body))
         .then(updatedStatusEmotion => {
-            return databaseConnection.collection('users')
+            return databaseConn.collection('users')
                 .find({
                     _id: req.body.userId,
                     status: { $elemMatch: { statusId: req.body.statusId } }
