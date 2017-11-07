@@ -1,7 +1,8 @@
 var app = require('myna-server').app;
 var mongoDbConnection = require('myna-server').mongoDb.closedConnection;
 var ValidationError = require('myna-server').ValidationError;
-
+var ObjectID = require('mongodb').ObjectID;
+var Promise = require('bluebird');
 /*
  {
  "userId" : "123",
