@@ -25,7 +25,8 @@ app.post('/myna/news/newsFeed', function (req, res) {
             res.status(200).send(statusResult)
         })
         .catch(err => {
-            databaseConn.close();
+            if(databaseConn)
+                databaseConn.close();
             res.status(500).send(err.stack)
         });
 });

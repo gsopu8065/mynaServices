@@ -2,6 +2,7 @@ var app = require('myna-server').app;
 var mongoDbConnection = require('myna-server').mongoDb.closedConnection;
 var ObjectID = require('mongodb').ObjectID;
 var Promise = require('bluebird');
+var getStatus = require('myna-global').getStatus;
 
 /* {
  "statusId":"statusId",
@@ -18,7 +19,9 @@ app.post('/myna/status/editStatus', function (req, res) {
                     "timeStamp": Math.floor(Date.now())
                 }
             })
-            .then(out => res.status(200).send(out))
+            .then(updateStatus => { return getStatus(req.body.statusId, req.body.userId) })
+            .then(response => res.status(200).send(response))
+            .catch(err => res.status(500).send(err.stack));
 
     }).catch(err => res.status(500).send(err.stack));
 
