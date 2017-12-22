@@ -46,7 +46,8 @@ var getNearByStatus = function (databaseConnection, location, radius, userId) {
     })
         .sort({ timeStamp: 1 }).limit(50).toArray()
         .then(dbres => {
-            _.forEach(dbres, function (eachStatus) {
+            _.sortBy(dbres, [function(eachStatus) { return eachStatus.emotions.like.length + eachStatus.emotions.dislike.length + eachStatus.replyCount; }]);
+            _.forEach(dbres, function (eachStatus, index) {
                 var likeIndex = _.findIndex(eachStatus.emotions.like, function (o) { return o == userId; });
                 var dislikeIndex = _.findIndex(eachStatus.emotions.dislike, function (o) { return o == userId; });
                 if (likeIndex != -1)
@@ -55,6 +56,7 @@ var getNearByStatus = function (databaseConnection, location, radius, userId) {
                 if (dislikeIndex != -1)
                     eachStatus.userstatusEmotion = 'dislike'
 
+                eachStatus.sort = index;
                 eachStatus.likeCount = eachStatus.emotions.like.length;
                 eachStatus.dislikeCount = eachStatus.emotions.dislike.length
                 delete eachStatus.emotions
