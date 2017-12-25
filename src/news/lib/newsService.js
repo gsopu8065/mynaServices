@@ -63,7 +63,7 @@ var getNearByStatus = function (databaseConnection, location, radius, userId) {
             });
 
             //if same user add sort to 4
-            var userIndex = _.findIndex(sortedRes, function(o) { return _id == userId; });
+            var userIndex = _.findIndex(sortedRes, function(o) { return o._id == userId; });
             if(userIndex != -1){
                 sortedRes[userIndex].sort = 4;
             }
