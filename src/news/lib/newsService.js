@@ -46,8 +46,8 @@ var getNearByStatus = function (databaseConnection, location, radius, userId) {
     })
         .sort({ timeStamp: 1 }).limit(50).toArray()
         .then(dbres => {
-            _.sortBy(dbres, [function(eachStatus) { return eachStatus.emotions.like.length + eachStatus.emotions.dislike.length + eachStatus.replyCount; }]);
-            _.forEach(dbres, function (eachStatus, index) {
+            var sortedRes = _.sortBy(dbres, [function(eachStatus) { return eachStatus.emotions.like.length + eachStatus.emotions.dislike.length + eachStatus.replyCount; }]);
+            _.forEach(sortedRes, function (eachStatus, index) {
                 var likeIndex = _.findIndex(eachStatus.emotions.like, function (o) { return o == userId; });
                 var dislikeIndex = _.findIndex(eachStatus.emotions.dislike, function (o) { return o == userId; });
                 if (likeIndex != -1)
@@ -61,7 +61,7 @@ var getNearByStatus = function (databaseConnection, location, radius, userId) {
                 eachStatus.dislikeCount = eachStatus.emotions.dislike.length
                 delete eachStatus.emotions
             });
-            return Promise.resolve(dbres);
+            return Promise.resolve(sortedRes);
         })
         .catch(error => { return Promise.reject(error) });
 };
