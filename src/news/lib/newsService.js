@@ -61,6 +61,13 @@ var getNearByStatus = function (databaseConnection, location, radius, userId) {
                 eachStatus.dislikeCount = eachStatus.emotions.dislike.length
                 delete eachStatus.emotions
             });
+
+            //if same user add sort to 4
+            var userIndex = _.findIndex(sortedRes, function(o) { return _id == userId; });
+            if(userIndex != -1){
+                sortedRes[userIndex].sort = 4;
+            }
+
             return Promise.resolve(sortedRes);
         })
         .catch(error => { return Promise.reject(error) });
