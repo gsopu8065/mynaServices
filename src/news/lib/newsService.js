@@ -46,7 +46,7 @@ var getNearByStatus = function (databaseConnection, location, radius, userId) {
     })
         .sort({ timeStamp: 1 }).limit(50).toArray()
         .then(dbres => {
-            var sortedRes = _.sortBy(dbres, [function(eachStatus) { return eachStatus.emotions.like.length + eachStatus.emotions.dislike.length + eachStatus.replyCount; }]);
+            var sortedRes = _.sortBy(dbres, [function(eachStatus) { return eachStatus.emotions.like.length + eachStatus.emotions.dislike.length + eachStatus.replyCount; }]).reverse();
             _.forEach(sortedRes, function (eachStatus, index) {
                 var likeIndex = _.findIndex(eachStatus.emotions.like, function (o) { return o == userId; });
                 var dislikeIndex = _.findIndex(eachStatus.emotions.dislike, function (o) { return o == userId; });
